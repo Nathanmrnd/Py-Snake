@@ -1,0 +1,12 @@
+max_scores: 5
+scores:
+- name: Jack
+  score: 8
+- name: William
+  score: 6
+- name: FLP
+  score: 2
+- name: Averell
+  score: 0
+- name: dd
+  score: 0
