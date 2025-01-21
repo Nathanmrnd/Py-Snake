@@ -35,6 +35,7 @@ class Fruit(GameObject):
     @classmethod
     def create_random(cls, nb_lines: int, nb_cols: int) -> typing.Self:
         """Create a random fruit."""
+        
         random.seed()
         x = random.randint(0, nb_cols - 1)
         y = random.randint(0, nb_lines - 1)

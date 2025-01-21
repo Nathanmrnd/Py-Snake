@@ -3,6 +3,7 @@ import pygame
 import typing
 import logging
 
+
 from .board import Board
 from .checkerboard import Checkerboard
 from .dir import Dir
@@ -21,6 +22,8 @@ MAX_SCORES = 5
 
 class Game:
     """The main class of the game."""
+
+    
 
     def __init__(self, width: int, height: int, tile_size: int,  # noqa: PLR0913
                  fps: int,
@@ -48,6 +51,7 @@ class Game:
 
     def _reset_snake(self) -> None:
         """Reset the snake."""
+        logger = logging.getLogger("foo")
         logger.setLevel(logging.INFO)
         logger.info("We reset the snake")
         if self._snake is not None:
@@ -81,8 +85,9 @@ class Game:
                             tile_size=self._tile_size)
 
         # Create checkerboard
+        logger = logging.getLogger("foo")
         logger.setLevel(logging.INFO)
-        logger.info("Checkerboard is created"))
+        logger.info("Checkerboard is created")
         self._checkerboard = Checkerboard(nb_lines=self._height,
                                           nb_cols=self._width)
         self._board.add_object(self._checkerboard)
@@ -93,6 +98,7 @@ class Game:
         self._reset_snake()
 
         # Create fruit
+
         logger.info("The fruit is created")
         Fruit.color = self._fruit_color
         self._board.create_fruit()
