@@ -47,6 +47,8 @@ class Game:
 
     def _reset_snake(self) -> None:
         """Reset the snake."""
+        logger.setLevel(logging.INFO)
+        logger.info("We reset the snake")
         if self._snake is not None:
             self._board.detach_obs(self._snake)
             self._board.remove_object(self._snake)
@@ -136,6 +138,8 @@ class Game:
 
     def _process_inputname(self, event: pygame.event.Event) -> None:
         """The player enters his/her name in the ranking list of highscores."""
+        logger.setLevel(logging.INFO)
+        logger.info("The player enters his/her name.")
         if self._new_high_score is not None and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:  # Validate the name
                 # Save the score with the player's name
