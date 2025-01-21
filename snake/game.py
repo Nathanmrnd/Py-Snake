@@ -1,6 +1,7 @@
 import importlib.resources
 import pygame
 import typing
+import logging
 
 from .board import Board
 from .checkerboard import Checkerboard
@@ -47,6 +48,8 @@ class Game:
 
     def _reset_snake(self) -> None:
         """Reset the snake."""
+        logger.setLevel(logging.INFO)
+        logger.info("We reset the snake")
         if self._snake is not None:
             self._board.detach_obs(self._snake)
             self._board.remove_object(self._snake)
@@ -78,14 +81,19 @@ class Game:
                             tile_size=self._tile_size)
 
         # Create checkerboard
+        logger.setLevel(logging.INFO)
+        logger.info("Checkerboard is created"))
         self._checkerboard = Checkerboard(nb_lines=self._height,
                                           nb_cols=self._width)
         self._board.add_object(self._checkerboard)
 
         # Create snake
+        
+        logger.info("The snake is created")
         self._reset_snake()
 
         # Create fruit
+        logger.info("The fruit is created")
         Fruit.color = self._fruit_color
         self._board.create_fruit()
 
@@ -136,6 +144,7 @@ class Game:
 
     def _process_inputname(self, event: pygame.event.Event) -> None:
         """The player enters his/her name in the ranking list of highscores."""
+        logger.info("The player enters his/her name.")
         if self._new_high_score is not None and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:  # Validate the name
                 # Save the score with the player's name

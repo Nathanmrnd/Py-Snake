@@ -30,8 +30,6 @@ def main() -> None:  # noqa: D103
         handler = logging.StreamHandler(sys.stderr)
         logger.addHandler(handler) 
 
-    
-
         # Load scores from the YAML file
         scores = Scores.load("high_scores.yaml")  # Charge les scores du fichier YAML
 
