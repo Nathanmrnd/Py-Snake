@@ -6,7 +6,7 @@ scores:
   score: 6
 - name: FLP
   score: 2
-- name: Averell
-  score: 0
-- name: dd
-  score: 0
+- name: Soso
+  score: 2
+- name: "Sol\xE8ne"
+  score: 1

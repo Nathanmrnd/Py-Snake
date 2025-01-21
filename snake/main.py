@@ -2,6 +2,9 @@
 
 # Standard
 import sys
+import logging
+
+
 
 # First party
 from .cmd_line import read_args
@@ -14,6 +17,14 @@ def main() -> None:  # noqa: D103
     try:
         # Read command line arguments
         args = read_args()
+
+        # We define a custom named logger
+        logger = logging.getLogger("foo")
+        # Registration of the new handler
+        handler = logging.StreamHandler(sys.stderr)
+        logger.addHandler(handler) 
+
+    
 
         # Load scores from the YAML file
         scores = Scores.load("high_scores.yaml")  # Charge les scores du fichier YAML
