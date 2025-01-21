@@ -73,6 +73,10 @@ def read_args() -> argparse.Namespace:
                         help="Set the number of frames per second."
                         f" Must be between {MIN_FPS} and {MAX_FPS}.")
 
+    parser.add_argument("--verbose", "-v", dest="verbose", action="count",
+        default=0,
+        help="Verbose level. -v for information, -vv for debug,"
+                  " -vvv for trace.")
     # Parse
     args = parser.parse_args()
 

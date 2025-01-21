@@ -13,6 +13,12 @@ from .game import Game
 from .score import Score
 from .scores import Scores  # Assure-toi que cette importation est correcte
 
+logger = logging.getLogger("foo")
+
+
+
+
+
 def main() -> None:  # noqa: D103
     try:
         # Read command line arguments
@@ -53,5 +59,5 @@ def main() -> None:  # noqa: D103
             scores.save("high_scores.yaml")
 
     except SnakeError as e:
-        print(f"Error: {e}")  # noqa: T201
+        logger.critical("This is a FATAL level log message. Something terrible happened.")
         sys.exit(1)
