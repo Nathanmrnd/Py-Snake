@@ -3,6 +3,7 @@
 # Standard
 import random
 import typing
+import logger
 
 # Third party
 import pygame
@@ -38,4 +39,5 @@ class Fruit(GameObject):
         random.seed()
         x = random.randint(0, nb_cols - 1)
         y = random.randint(0, nb_lines - 1)
+
         return cls(Tile(x, y, cls.color))
