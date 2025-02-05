@@ -11,6 +11,16 @@ class Scores:
         # Sort the scores in descending order to keep the highest first
         self._scores = sorted(scores, reverse=True)[:max_scores]
 
+
+    def add_score(self, score_player: Score) -> None:
+        """Add a new score and sort the list."""
+        if self.is_highscore(score_player.score):
+            if len(self._scores) >= self._max_scores:
+                self._scores.pop()  # remove the lowest score if the list is full
+            self._scores.append(score_player)
+            self._scores.sort(reverse=True)
+            self.save()  # save scores to file after each addition
+
     def __iter__(self) -> typing.Iterator[Score]:
         """Iterate over the list of scores."""
         return iter(self._scores)
@@ -19,14 +29,8 @@ class Scores:
         """Check if a player's score qualifies as a high score."""
         return len(self._scores) < self._max_scores or score_player > self._scores[-1].score
 
-    def add_score(self, score_player: Score) -> None:
-        """Add a new score and sort the list."""
-        if self.is_highscore(score_player.score):
-            if len(self._scores) >= self._max_scores:
-                self._scores.pop()  # Remove the lowest score if the list is full
-            self._scores.append(score_player)
-            self._scores.sort(reverse=True)
-            self.save()  # Save scores to file after each addition
+
+
 
     @staticmethod
     def load(filename: str = "high_scores.yaml") -> "Scores":
@@ -34,8 +38,8 @@ class Scores:
         try:
             with open(filename, "r") as f:
                 data = yaml.safe_load(f)
-                if not data or 'scores' not in data:  # If the file is empty or malformed
-                    print("No valid scores found in file, creating a new file with default scores.")  # Debug
+                if not data or 'scores' not in data:  # if the file is empty or malformed
+                    print("No valid scores found in file, creating a new file with default scores.")  # debug
                     return Scores.default(max_scores=5)
                 max_scores = data.get("max_scores", 5)
                 scores = [
@@ -44,8 +48,8 @@ class Scores:
                 ]
                 return Scores(max_scores, scores)
         except FileNotFoundError:
-            print(f"File {filename} not found, creating a new file with default scores.")  # Debug
-            # If the file doesn't exist, create one with default scores
+            print(f"File {filename} not found, creating a new file with default scores.")  # debug
+            # if the file doesn't exist, create one with default scores
             return Scores.default(max_scores=5)
 
     @staticmethod
@@ -63,11 +67,11 @@ class Scores:
 
     def save(self, filename: str = "high_scores.yaml") -> None:
         """Save the current scores to a YAML file."""
-        print("Saving scores to file...")  # Debug
+        print("Saving scores to file...")  # debug
         data = {
             "max_scores": self._max_scores,
             "scores": [{"name": s.name, "score": s.score} for s in self._scores],
         }
         with open(filename, "w") as f:
             yaml.dump(data, f)
-            print(f"Scores saved to {filename}.")  # Debug
+            print(f"Scores saved to {filename}.")  # debug

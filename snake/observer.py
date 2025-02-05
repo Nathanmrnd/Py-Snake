@@ -1,6 +1,6 @@
 # ruff: noqa: D100,S311
 
-# Standard
+# standard
 import typing
 
 if typing.TYPE_CHECKING:

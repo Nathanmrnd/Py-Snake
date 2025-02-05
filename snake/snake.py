@@ -1,23 +1,22 @@
-# ruff: noqa: D100,S311
 
-# Standard
+
+
 import random
 import typing
 
-# Third party
+
 import pygame
 
-# First party
 from .dir import Dir
 from .exceptions import GameOver
 from .fruit import Fruit
 from .game_object import GameObject
 from .tile import Tile
 
-# Constants
+# contantes
 DEF_HEAD_COLOR = pygame.Color("green")
 DEF_BODY_COLOR = pygame.Color("darkgreen")
-SK_START_LENGTH = 3
+INITIAL_LENGTH = 3
 
 class Snake(GameObject):
     """The snake."""
@@ -42,14 +41,18 @@ class Snake(GameObject):
         return iter(self._tiles)
 
     @property
-    def score(self) -> int :
-        """Score of the player."""
-        return self._length-SK_START_LENGTH
-
-    @property
     def dir(self) -> Dir:
         """Snake direction."""
         return self._dir
+
+    @property
+    def score(self) -> int :
+        """Score of the player."""
+        return self._length-INITIAL_LENGTH
+
+
+
+
 
     @dir.setter
     def dir(self, direction: Dir) -> None:
@@ -68,37 +71,37 @@ class Snake(GameObject):
         """Notify that an object collides with another."""
         if isinstance(obj, Fruit):
 
-            # Grow
+            # grow
             self._length += 1
 
-            # Notify that the fruit has been eaten
+            # notify that the fruit has been eaten
             for obs in self.observers:
                 obs.notify_object_eaten(obj)
 
     def move(self) -> None:
         """Let the snake advance."""
-        # Create new head
+        # create new head
         new_head = self._tiles[0] + self._dir
 
-        # Slither on itself?
+        
         if new_head in self._tiles:
             raise GameOver
 
-        # Current head changes color
+        # current head changes color
         self._tiles[0].color = self._tiles[-1].color
 
-        # Insert new head
+        # insert new head
         self._tiles.insert(0, new_head)
 
-        # Notify movement
+        # notify movement
         for obs in self.observers:
             obs.notify_object_moved(self)
 
-        # Remove queue tiles if needed
+        # remove queue tiles if needed
         if len(self._tiles) > self._length:
             del self._tiles[self._length:]
 
-    # Create a Snake at random position on the board
+    # create a Snake at random position on the board
     @classmethod
     def create_random(cls, nb_lines: int, nb_cols: int, # noqa: PLR0913
                       length: int,
@@ -107,19 +110,20 @@ class Snake(GameObject):
                       body_color: pygame.Color = DEF_BODY_COLOR,
                       gameover_on_exit: bool = False) -> typing.Self:
         """Create a snake and place it randomly on the board."""
-        tiles = [] # List of tuples (col_index, line_index)
+        tiles = [] # list of tuples (col_index, line_index)
 
-        # Choose head
+        # choose head
         random.seed()
         x = random.randint(length - 1, nb_cols - length)
         y = random.randint(length - 1, nb_lines - length)
         tiles.append(Tile(x, y, head_color))
 
-        # Choose body orientation (i.e.: in which direction the snake will move)
+        # determine the body orientation
         random.seed()
         snake_dir = random.sample([Dir.LEFT, Dir.RIGHT, Dir.UP, Dir.DOWN], 1)[0]
 
-        # Create body
+
+        # create a body
         while len(tiles) < length:
             tile = tiles[-1] - snake_dir
             tile.color = body_color

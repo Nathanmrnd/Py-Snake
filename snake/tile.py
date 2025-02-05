@@ -1,9 +1,8 @@
-# ruff: noqa: D100,S311
 
-# Third party
+# third party
 import pygame
 
-# First party
+# first party
 from .dir import Dir
 
 
@@ -16,8 +15,8 @@ class Tile:
 
     def __init__(self, x: int, y: int, color: pygame.Color) -> None:
         """Object initialization."""
-        self._x = x # Column index
-        self._y = y # Line index
+        self._x = x # column index
+        self._y = y # line index
         self._color = color
 
     @property

@@ -1,10 +1,10 @@
 # ruff: noqa: D100,S311
 
-# Standard
+
 import abc
 import typing
 
-# First party
+
 from .observer import Observer
 from .subject import Subject
 from .tile import Tile

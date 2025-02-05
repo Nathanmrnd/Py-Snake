@@ -1,0 +1,11 @@
+max_scores: 5
+scores:
+- name: Guigui
+  score: 32
+- name: Joe
+  score: 8
+- name: Jack
+  score: 6
+- name: William
+  score: 4
+

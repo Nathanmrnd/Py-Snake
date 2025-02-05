@@ -14,10 +14,11 @@ from .scores import Scores  # Importation des scores
 from .snake import Snake
 from .state import State
 
-# Constants
+# constantes
 SK_START_LENGTH = 3
 MAX_LENGHT = 8
 MAX_SCORES = 5
+logger = logging.getLogger("foo")
 
 class Game:
     """The main class of the game."""
@@ -43,7 +44,7 @@ class Game:
         self._snake = None
         self._new_high_score = None | Score
 
-        # Chargement des scores depuis le fichier YAML
+        # chargement des scores depuis le fichier YAML
         self._scores = Scores.load("high_scores.yaml")
 
     def _reset_snake(self) -> None:
@@ -66,38 +67,38 @@ class Game:
 
     def _init(self) -> None:
         """Initialize the game."""
-        # Create a display screen
+        # create a display screen
         screen_size = (self._width * self._tile_size,
                        self._height * self._tile_size)
         self._screen = pygame.display.set_mode(screen_size)
 
-        # Create the clock
+        # create the clock
         self._clock = pygame.time.Clock()
 
-        # Create the main board
+        # create the main board
         self._board = Board(screen=self._screen,
                             nb_lines=self._height,
                             nb_cols=self._width,
                             tile_size=self._tile_size)
 
-        # Create checkerboard
+        # create checkerboard
         logger.setLevel(logging.INFO)
-        logger.info("Checkerboard is created"))
+        logger.info("Checkerboard is created")
         self._checkerboard = Checkerboard(nb_lines=self._height,
                                           nb_cols=self._width)
         self._board.add_object(self._checkerboard)
 
-        # Create snake
+        # create snake
         
         logger.info("The snake is created")
         self._reset_snake()
 
-        # Create fruit
+        # create fruit
         logger.info("The fruit is created")
         Fruit.color = self._fruit_color
         self._board.create_fruit()
 
-        # Download font
+        # download font
         with importlib.resources.path("snake", "DejaVuSansMono-Bold.ttf") as f:
             self._font_1 = pygame.font.Font(f, 32)
             self._font_2 = pygame.font.Font(f, 64)
@@ -146,26 +147,26 @@ class Game:
         """The player enters his/her name in the ranking list of highscores."""
         logger.info("The player enters his/her name.")
         if self._new_high_score is not None and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:  # Validate the name
-                # Save the score with the player's name
-                self._scores.add_score(self._new_high_score)  # Add the score with the name
-                self._scores.save("high_scores.yaml")  # Save the scores in the YAML file
-                self._state = State.SCORES  # Return to the scores screen, not quit
-            elif event.key == pygame.K_BACKSPACE:  # Correct a mistake
+            if event.key == pygame.K_RETURN:  # validate the name
+                # save the score with the player's name
+                self._scores.add_score(self._new_high_score)  # add the score with the name
+                self._scores.save("high_scores.yaml")  # save the scores in the YAML file
+                self._state = State.SCORES  # return to the scores screen, not quit
+            elif event.key == pygame.K_BACKSPACE:  # correct a mistake
                 self._new_high_score.name = self._new_high_score.name[:-1]
             else:
-                # Add a character to the name
+                # add a character to the name
                 self._new_high_score.name += event.unicode
 
     def _process_events(self) -> None:
         """Process pygame events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self._state = State.QUIT  # Properly handle quit event
+                self._state = State.QUIT  # properly handle quit event
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:  # Press 'Q' to quit
+                if event.key == pygame.K_q:  # press 'Q' to quit
                     self._state = State.QUIT
-                # Handle other states
+                # handle other states
                 match self._state:
                     case State.SCORES:
                         self._process_scores_event(event)
@@ -176,23 +177,23 @@ class Game:
 
     def start(self) -> None:
         """Start the game."""
-        # Initialize pygame
+        # initialize pygame
         pygame.init()
 
-        # Initialize game
+        # initialize game
         self._init()
 
-        # Start pygame loop
+        # start pygame loop
         self._state = State.SCORES
         while self._state != State.QUIT:
 
-            # Wait 1/FPS second
+            # wait 1/FPS second
             self._clock.tick(self._fps)
 
-            # Listen for events
+            # listen for events
             self._process_events()
 
-            # Update objects
+            # update objects
             try:
                 if self._state == State.PLAY:
                     self._snake.move()
@@ -201,10 +202,10 @@ class Game:
                 self._state = State.GAMEOVER
                 countdown = self._fps
 
-            # Clear the screen before drawing the next frame
+            # clear the screen before drawing the next frame
             self._screen.fill(pygame.Color("black"))
 
-            # Draw
+            # draw
             self._board.draw()
             match self._state:
                 case State.GAMEOVER:
@@ -223,8 +224,8 @@ class Game:
                 case State.INPUT_NAME:
                     self._draw_inputname()
 
-            # Display
+            # display
             pygame.display.update()
 
-        # Terminate pygame
+        # terminate pygame
         pygame.quit()

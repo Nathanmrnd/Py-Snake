@@ -1,6 +1,6 @@
-# ruff: noqa: D100,S311
 
-# First party
+
+
 from .observer import Observer
 
 

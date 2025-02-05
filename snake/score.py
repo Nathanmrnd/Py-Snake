@@ -27,7 +27,7 @@ class Score :
         return self._score
 
     
-    # Implemente the comparaison operators to use the function sort in the lists
+    # implemente the comparaison operators to use the function sort in the lists
     def __gt__(self, other : object) -> bool :
         """Define the comparaison operator."""
         return isinstance(other, Score) and self._score > other._score
